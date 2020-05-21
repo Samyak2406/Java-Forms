@@ -2,8 +2,10 @@
 require "connect.php";
 $values=array();
 $type=array();
-$text="name_varchar(255)@city_int@";//To be received
-$tableName="table0";//To be received
+$tableName=$_POST["tableName"];//To be received
+$text=$_POST["data"];//To be received
+// $text="name_varchar(255)@city_int@";//To be received
+// $tableName="table0";//To be received
 $count=0;
 $word="";
 $length=strlen($text);
