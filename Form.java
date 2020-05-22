@@ -82,6 +82,7 @@ public class Form extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				cl.show(card,"2");
 				title = t1.getText();
+				title = refineText(title);
 				for(int i=0;i<index;i++) {
 					s[i] = t[i].getText();
 					ft[i].setText(s[i]);
@@ -110,6 +111,7 @@ public class Form extends JFrame{
 		done.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				title = t1.getText();
+				title = refineText(title);
 				for(int i=0;i<index;i++) {
 					s[i] = t[i].getText();
 					ft[i].setText(s[i]);
@@ -130,9 +132,9 @@ public class Form extends JFrame{
 				}
 				new Form_view(title,s,cks,rds,cbs,index,cki,rdi,rdc + 1,cbc + 1,label,ckt,rdt,cbt).setVisible(true);
 				for(int i=0;i<index;i++) {
-					 if(fstr.equals("")) { fstr = s[i] + "_varchar(255)@"; }
+					 if(fstr.equals("")) { fstr = refineText(s[i]) + "_varchar(255)@"; }
 					 else {
-						 fstr = fstr + s[i]+ "_varchar(255)@";
+						 fstr = fstr + refineText(s[i])+ "_varchar(255)@";
 					 }
 						 
 				}
@@ -140,7 +142,7 @@ public class Form extends JFrame{
 				create_table c=new create_table();
 				title = refineText(title);
 				//fstr = refineText(fstr);
-				System.out.println(fstr);
+				//System.out.println(fstr);
 				c.uploadData(title, fstr, "createTable");//TODO provide here tble name
 				dispose();
 			}
@@ -526,7 +528,6 @@ public class Form extends JFrame{
 				}
 				if ( e.getStateChange() == ItemEvent.SELECTED && e.getItem().equals("Dropdown Box") ) {
 					label[index] = 6;
-					if(cbc>=0) {System.out.println(cbt[cbc]);}
 					cbc++;
 					cb2 = new JComboBox();
 					fcb2 = new JComboBox();
@@ -604,7 +605,6 @@ public class Form extends JFrame{
 						}
 						
 					});
-					System.out.println("working:"+cbc);
 					cb1.setSelectedItem("Default");
 					p1.revalidate();
 					index++;
@@ -631,9 +631,17 @@ public class Form extends JFrame{
 		}
 		int length=data.length();
 		String refinedValue="";
-		String invalid="@ _";
+		String invalid="@ _:;,.?";
+		int invalidLength=invalid.length();
+		boolean a=false;
 		for(int i=0;i<length;i++) {
-			if(data.charAt(i)==invalid.charAt(0)||data.charAt(i)==invalid.charAt(1)||data.charAt(i)==invalid.charAt(2)) {
+			a=false;
+			for(int j=0;j<invalidLength;j++) {
+				if(data.charAt(i)==invalid.charAt(j)) {
+					a=true;
+				}
+			}
+			if(a==true) {
 				continue;
 			}
 			refinedValue+=data.charAt(i);
