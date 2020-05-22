@@ -18,8 +18,8 @@ public class Form_view extends JFrame {
 	int tfc=0,tac=0,psc=0,tfi=0,tai=0,psi=0,k=0,d=0,b=0,cki=0,rdi=0,cbi=0;
 	public  Form_view(String title,String[] s,String[] cks,String[] rds,String[] cbs,int index,int ckc,int rdc,int rdcc,int cbc,int[] label,int[] ckt,int[] rdt,int[] cbt) {
 		
-		System.out.println("index:"+index+" ckc:"+ckc+" rdc:"+rdc+" cbc:"+cbc);
-		System.out.println("title:"+title);
+		//System.out.println("index:"+index+" ckc:"+ckc+" rdc:"+rdc+" cbc:"+cbc);
+		//System.out.println("title:"+title);
 		JPanel p1,p2;
 		JLabel Title;
 		JButton submit,Responses;		
@@ -154,7 +154,8 @@ public class Form_view extends JFrame {
 		Responses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
                 try {
-                	String outputUrl="http://91e7d484.ngrok.io/phpmyadmin/sql.php?db=java&table="+title+"&lang=en&pos=0";
+                	create_table c=new create_table();
+                	String outputUrl="http://b383c2a5.ngrok.io/phpmyadmin/sql.php?db=java&table="+title+"&lang=en&pos=0";
 					java.awt.Desktop.getDesktop().browse(java.net.URI.create(outputUrl));
 				} catch (Exception e) {
 					System.out.println(e);
@@ -332,6 +333,5 @@ public class Form_view extends JFrame {
 	}
 
 }
-
 
 
