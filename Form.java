@@ -14,7 +14,9 @@ public class Form extends JFrame{
 	JPasswordField ps1,fps1;
 	JComboBox cb2,fcb2;
 	JLabel cbl;
+	ButtonGroup bg;
 	JLabel[] ft,fck,frd;
+	String fstr = "";
 	public String[] s = new String[100];
 	public String[] cks = new String[200];
 	public String[] rds = new String[200];
@@ -40,7 +42,7 @@ public class Form extends JFrame{
 		cl = new CardLayout();
 		JComboBox cb1;
 		JLabel l1;
-		JTextField t1;		
+		JTextField t1;
 		Font font1 = new Font(Font.SANS_SERIF, Font.BOLD, 25);
 		Font font3 = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 		Font font2 = new Font(Font.SERIF, Font.PLAIN, 15);
@@ -107,9 +109,39 @@ public class Form extends JFrame{
 		});
 		done.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Form_view f = new Form_view();
-				f.fv();
-				f.setVisible(true);
+				title = t1.getText();
+				for(int i=0;i<index;i++) {
+					s[i] = t[i].getText();
+					ft[i].setText(s[i]);
+				}
+				for(int j=0;j<index;j++) {
+					if(label[j] == 3) {
+						for(int i=0;i<cki;i++) {
+							cks[i] = ck[i].getText();
+							fck[i].setText(cks[i]);
+						}
+					}
+					if(label[j] == 4) {
+						for(int i=0;i<rdi;i++) {
+							rds[i] = rd[i].getText();
+							frd[i].setText(rds[i]);
+						}
+					}
+				}
+				new Form_view(title,s,cks,rds,cbs,index,cki,rdi,rdc + 1,cbc + 1,label,ckt,rdt,cbt).setVisible(true);
+				for(int i=0;i<index;i++) {
+					 if(fstr.equals("")) { fstr = s[i] + "_varchar(255)@"; }
+					 else {
+						 fstr = fstr + s[i]+ "_varchar(255)@";
+					 }
+						 
+				}
+				//String kai_pn="lion_varchar(255)@tiger_varchar(255)@";
+				create_table c=new create_table();
+				title = refineText(title);
+				//fstr = refineText(fstr);
+				System.out.println(fstr);
+				c.uploadData(title, fstr, "createTable");//TODO provide here tble name
 				dispose();
 			}
 		});
@@ -376,7 +408,9 @@ public class Form extends JFrame{
 					c.gridwidth = 1;
 					p1.add(rd[rdi],c);
 					y[0]++;
+					bg = new ButtonGroup();
 					frd1 = new JRadioButton();
+					bg.add(frd1);
 					c.gridy = y[1];
 					c.ipady = 0;
 					c.gridx = 0;
@@ -384,6 +418,7 @@ public class Form extends JFrame{
 					frd[rdi] = new JLabel();
 					frd[rdi].setFont(font2);
 					rds[rdi] = rd[rdi].getText();
+					
 					frd[rdi].setText(rds[rdi]);
 					c.gridy = y[1];
 					c.ipady = 0;
@@ -416,6 +451,7 @@ public class Form extends JFrame{
 								y[0]++;
 								p1.add(rd[rdi],c);
 								frd1 = new JRadioButton();
+								bg.add(frd1);
 								c.gridy = y[1];
 								c.ipady = 0;
 								c.gridx = 0;
@@ -588,6 +624,24 @@ public class Form extends JFrame{
 	}
 	public static void main(String[] args) {
 		    Form F = new Form();
+	}
+	public static String refineText(String data) {//Function to refine string to get valid characters
+		if(data==null) {
+			return "NoValue";//In case if user enters no value
+		}
+		int length=data.length();
+		String refinedValue="";
+		String invalid="@ _";
+		for(int i=0;i<length;i++) {
+			if(data.charAt(i)==invalid.charAt(0)||data.charAt(i)==invalid.charAt(1)||data.charAt(i)==invalid.charAt(2)) {
+				continue;
+			}
+			refinedValue+=data.charAt(i);
+		}
+		if(refinedValue=="") {
+			return "Empty";//in case user enters all invalid characters
+		}
+		return refinedValue;
 	}
 
 }
