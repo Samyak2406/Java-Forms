@@ -9,9 +9,17 @@ public class refineData {
 		}
 		int length=data.length();
 		String refinedValue="";
-		String invalid="@ _";
+		String invalid="@ _:;,.?";
+		int invalidLength=invalid.length();
+		boolean a=false;
 		for(int i=0;i<length;i++) {
-			if(data.charAt(i)==invalid.charAt(0)||data.charAt(i)==invalid.charAt(1)||data.charAt(i)==invalid.charAt(2)) {
+			a=false;
+			for(int j=0;j<invalidLength;j++) {
+				if(data.charAt(i)==invalid.charAt(j)) {
+					a=true;
+				}
+			}
+			if(a==true) {
 				continue;
 			}
 			refinedValue+=data.charAt(i);
